@@ -1,5 +1,6 @@
 require 'csv'
 require 'terminal-table'
+
 file = CSV.read(
   'event_attendees.csv',
   headers: true,
