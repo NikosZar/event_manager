@@ -12,7 +12,6 @@ specific_format = "%m/%d/%y %H:%M"
 def convert_datetime(date, format)
   date.map {|regdate| Time.strptime(regdate, format)}
 end
-#date_time = Time.strptime(date, specific_format)
 
 def count_hours(date_array)
   date_array.map(&:hour).tally.sort_by { |_, count| -count }.to_h
