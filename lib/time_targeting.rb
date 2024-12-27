@@ -1,23 +1,15 @@
-require 'csv'
+require_relative 'event_data_handler'
 require 'terminal-table'
 
-file = CSV.read(
-  'event_attendees.csv',
-  headers: true,
-  header_converters: :symbol)
-
-date = file[:regdate]
-specific_format = "%m/%d/%y %H:%M"
-
-def convert_datetime(date, format)
-  date.map {|regdate| Time.strptime(regdate, format)}
-end
+# Use the shared functionality
+times = EventDataHandler.load_data
+hour_counts = times.map(&:hour).tally.sort_by { |_, count| -count }.to_h
 
 def count_hours(date_array)
   date_array.map(&:hour).tally.sort_by { |_, count| -count }.to_h
 end
 
-hours_count = count_hours(convert_datetime(date, specific_format))
+hours_count = count_hours(times)
 
 table = Terminal::Table.new do |t|
   t.title = "Registration Hours Distribution"
